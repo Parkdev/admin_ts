@@ -14,6 +14,11 @@ const navigation: Array<{ name: string; href: string; current: boolean }> = [
   { name: "Calendar", href: "#", current: false },
 ];
 
+const profileOptions: Array<{ name: string; href: string }> = [
+  { name: "Your Profile", href: "#" },
+  { name: "Sign out", href: "#" },
+];
+
 function classNames(...classes: any): any {
   return classes.filter(Boolean).join(" ");
 }
@@ -29,7 +34,7 @@ export default function Navbar() {
             <div className="relative flex h-16 items-center justify-between">
               {/* 절대위치, y축여백, 0, 왼쪽여백 0, flex 중앙정렬, sm: 640 이하 사이즈에서 숨김*/}
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                {/* 모바일 전용 메뉴*/}
+                {/* 모바일 전용 메뉴 버튼*/}
                 {/* position 설정, inline-flex(container의 흐름대로 쌓임), 모서리, padding, text색, hover시 bg색 text색변경, focus시 outline없앰,  */}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   {/* 안쪽 여백 - 0.5 */}
@@ -80,11 +85,11 @@ export default function Navbar() {
                 </div>
               </div>
               {/* Nav 우측 */}
-              <div className="absolute inset-y-0 right-0 flex space-x-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div className="bg-gray-800 absolute inset-y-0 right-0 flex space-x-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {/* 모서리 hover시 흰색 focus시 강조*/}
                 <button
                   type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="relative rounded-md bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   {/* 클릭 영역 확대용 span */}
                   <span className="absolute -inset-1.5" />
@@ -95,7 +100,7 @@ export default function Navbar() {
 
                 <button
                   type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="relative rounded-md bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   {/* 클릭 영역 확대용 span */}
                   <span className="absolute -inset-1.5" />
@@ -107,9 +112,9 @@ export default function Navbar() {
                 {/* 프로필 */}
                 <Menu as="div" className="relative ml-3">
                   <div>
-                    <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                      <div>
-                        <p className="h1 text-white inset-0 text-right font-bold">
+                    <Menu.Button className="relative flex items-center space-x-3 rounded-sm bg-gray-800 text-sm focus:outline-none">
+                      <div className="hidden sm:block">
+                        <p className=" text-white inset-0 text-right font-bold">
                           홍길동
                         </p>
                         <p className="text-white">hong@gmail.com</p>
@@ -123,6 +128,7 @@ export default function Navbar() {
                       />
                     </Menu.Button>
                   </div>
+                  {/* 메뉴 효과 */}
                   <Transition
                     as={Fragment}
                     enter="transition ease-out duration-100"
@@ -133,52 +139,28 @@ export default function Navbar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="/"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700",
-                            )}
-                          >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="/"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700",
-                            )}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="/"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700",
-                            )}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
+                      {profileOptions.map((item) => (
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href={item.href}
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700",
+                              )}
+                            >
+                              {item.name}
+                            </a>
+                          )}
+                        </Menu.Item>
+                      ))}
                     </Menu.Items>
                   </Transition>
                 </Menu>
               </div>
             </div>
           </div>
-
+          {/* 모바일 용 세로 네비바 */}
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
               {navigation.map((item) => (
