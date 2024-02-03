@@ -7,23 +7,21 @@ import {
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 
-const navigation: Array<{ name: string; href: string; current: boolean }> = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-];
+// 상단 네비 state
+import { RootState } from "../store/navstate";
+import { useSelector } from "react-redux";
 
+// 프로필 옵션
 const profileOptions: Array<{ name: string; href: string }> = [
   { name: "Your Profile", href: "#" },
   { name: "Sign out", href: "#" },
 ];
 
-function classNames(...classes: any): any {
-  return classes.filter(Boolean).join(" ");
-}
-
 export default function Navbar() {
+  const navigation = useSelector((state: RootState) => {
+    return state.nav.navigation;
+  });
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -70,12 +68,11 @@ export default function Navbar() {
                       <a
                         key={item.name}
                         href={item.href}
-                        className={classNames(
+                        className={`${
                           item.current
                             ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium",
-                        )}
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                        } rounded-md px-3 py-2 text-sm font-medium`}
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
@@ -144,10 +141,7 @@ export default function Navbar() {
                           {({ active }) => (
                             <a
                               href={item.href}
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700",
-                              )}
+                              className={`${active ? "bg-gray-100" : ""} block px-4 py-2 text-sm text-gray-700"`}
                             >
                               {item.name}
                             </a>
@@ -168,12 +162,8 @@ export default function Navbar() {
                   key={item.name}
                   as="a"
                   href={item.href}
-                  className={classNames(
-                    item.current
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block rounded-md px-3 py-2 text-base font-medium",
-                  )}
+                  className={`${item.current ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white"}
+                    block rounded-md px-3 py-2 text-base font-medium`}
                   aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}

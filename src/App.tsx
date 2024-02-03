@@ -1,11 +1,13 @@
 import React from "react";
 import "./App.css";
 import Navbar from "./components/navbar";
+import SideMenu from "./components/sidemenu";
 
 function App() {
   return (
-    <div className="bg-gray-300">
+    <div className="">
       <Navbar></Navbar>
+      <SideMenu></SideMenu>
     </div>
   );
 }
