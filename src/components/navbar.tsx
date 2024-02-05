@@ -6,10 +6,10 @@ import {
   XMarkIcon,
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
-
 // 상단 네비 state
 import { RootState } from "../store/navstate";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { changeCurrent } from "../store/navstate";
 
 // 프로필 옵션
 const profileOptions: Array<{ name: string; href: string }> = [
@@ -26,8 +26,8 @@ export default function Navbar() {
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
-          {/* x축 자동, 최대너비 1280px 패딩x 2(8px) sm: 640px 사이즈 에서 24px , lg(1024px) 에서는 32px */}
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          {/* x축 자동, 최대너비 1280px max-w-7xl 패딩x 2(8px) sm: 640px 사이즈 에서 24px , lg(1024px) 에서는 32px */}
+          <div className="mx-auto px-2 sm:px-6 lg:px-8">
             {/* position 설정 flex 설정 hight 16단위 (64px) 중앙정렬 양쪽정렬 */}
             <div className="relative flex h-16 items-center justify-between">
               {/* 절대위치, y축여백, 0, 왼쪽여백 0, flex 중앙정렬, sm: 640 이하 사이즈에서 숨김*/}
@@ -64,7 +64,7 @@ export default function Navbar() {
                 <div className="hidden sm:ml-6 sm:block">
                   {/* x축 간격 4 */}
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
+                    {navigation.map((item,index) => (
                       <a
                         key={item.name}
                         href={item.href}
@@ -73,6 +73,7 @@ export default function Navbar() {
                             ? "bg-gray-900 text-white"
                             : "text-gray-300 hover:bg-gray-700 hover:text-white"
                         } rounded-md px-3 py-2 text-sm font-medium`}
+                        onClick={() => dispatch{changeCurrent(index)}}
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}

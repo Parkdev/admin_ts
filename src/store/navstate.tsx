@@ -4,13 +4,20 @@ const nav = createSlice({
   name: "nav",
   initialState: {
     navigation: [
-      { name: "Dashboard", href: "#", current: true },
+      { name: "Menu1", href: "#", current: true },
       { name: "Menu2", href: "#", current: false },
       { name: "Menu3", href: "#", current: false },
       { name: "Menu4", href: "#", current: false },
     ],
   },
-  reducers: {},
+  reducers: {
+    changeCurrent: (state, action) => {
+      state.navigation.forEach((nav) => {
+        nav.current = false;
+      });
+      state.navigation[action.payload].current = true;
+    },
+  },
 });
 
 const store = configureStore({
@@ -19,5 +26,6 @@ const store = configureStore({
   },
 });
 
+export let { changeCurrent } = nav.actions;
 export type RootState = ReturnType<typeof store.getState>;
 export default store;
