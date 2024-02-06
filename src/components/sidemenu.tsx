@@ -30,10 +30,10 @@ export default function SideMenu() {
 
   //아이콘 맵핑
   const icons: { [key: string]: React.ReactElement } = {
-    CalendarIcon: <CalendarIcon className="h-5 w-5" />,
-    BookmarkSlashIcon: <BookmarkSlashIcon className="h-5 w-5" />,
-    BriefcaseIcon: <BriefcaseIcon className="h-5 w-5" />,
-    BuildingLibraryIcon: <BuildingLibraryIcon className="h-5 w-5" />,
+    CalendarIcon: <CalendarIcon />,
+    BookmarkSlashIcon: <BookmarkSlashIcon />,
+    BriefcaseIcon: <BriefcaseIcon />,
+    BuildingLibraryIcon: <BuildingLibraryIcon />,
   };
 
   //Dropdown Status 상태 관리
@@ -184,7 +184,13 @@ export default function SideMenu() {
                         onClick={() => dispatch(changeCurrent(index + 4))}
                         aria-current={item.current ? "page" : undefined}
                       >
-                        <>{item.icon ? icons[item.icon] : null}</>
+                        <>
+                          {item.icon
+                            ? React.cloneElement(icons[item.icon], {
+                                className: "h-5 w-5",
+                              })
+                            : null}
+                        </>
                         <div>{item.name}</div>
                       </a>
                     );
