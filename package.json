@@ -2,6 +2,7 @@
   "homepage": "https://parkdev.github.io/react_admin_ts/",
   "name": "admin_ts2",
   "version": "0.1.0",
+  "basename": "/react_admin_ts",
   "private": true,
   "dependencies": {
     "@headlessui/react": "^1.7.18",
