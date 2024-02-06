@@ -60,7 +60,7 @@ export default function Navbar() {
                 <a href="#" className="flex flex-shrink-0 items-center">
                   <img
                     className="m-2 h-6 w-auto text-white"
-                    src="/img/Microsoft_logo.png"
+                    src="./../img/Microsoft_logo.png"
                     alt="Microsoft"
                   />
                 </a>
