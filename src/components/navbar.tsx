@@ -9,7 +9,8 @@ import {
 // 상단 네비 state
 import { RootState } from "../store/navstate";
 import { useSelector, useDispatch } from "react-redux";
-import { changeCurrent } from "../store/navstate";
+import { changeCurrent, toggleHidden } from "../store/navstate";
+import SideMenu from "./sidemenu";
 
 // 프로필 옵션
 const profileOptions: Array<{ name: string; href: string }> = [
@@ -21,6 +22,8 @@ export default function Navbar() {
   const navigation = useSelector((state: RootState) => {
     return state.nav.navigation;
   });
+
+  let dispatch = useDispatch();
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -34,7 +37,10 @@ export default function Navbar() {
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* 모바일 전용 메뉴 버튼*/}
                 {/* position 설정, inline-flex(container의 흐름대로 쌓임), 모서리, padding, text색, hover시 bg색 text색변경, focus시 outline없앰,  */}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button
+                  onClick={() => dispatch(toggleHidden())}
+                  className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                >
                   {/* 안쪽 여백 - 0.5 */}
                   <span className="absolute -inset-0.5" />
                   {/* 스크린 리더용 */}
@@ -52,33 +58,35 @@ export default function Navbar() {
               {/* flex flex 110, sm일때 item을 늘려 수직으로 표현, sm일때 시작 정렬 */}
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 {/* 아이콘 - flex 아이템 축소 방지 */}
-                <div className="flex flex-shrink-0 items-center">
+                <a href="/" className="flex flex-shrink-0 items-center">
                   <img
                     className="m-2 h-6 w-auto text-white"
                     src="/img/Microsoft_logo.png"
                     alt="Microsoft"
                   />
-                </div>
+                </a>
 
                 {/* 기본적으로 숨기기, sm일때 노출*/}
                 <div className="hidden sm:ml-6 sm:block">
                   {/* x축 간격 4 */}
                   <div className="flex space-x-4">
-                    {navigation.map((item,index) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={`${
-                          item.current
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                        } rounded-md px-3 py-2 text-sm font-medium`}
-                        onClick={() => dispatch{changeCurrent(index)}}
-                        aria-current={item.current ? "page" : undefined}
-                      >
-                        {item.name}
-                      </a>
-                    ))}
+                    {navigation
+                      .filter((item) => item.category === 1)
+                      .map((item, index) => (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          className={`${
+                            item.current
+                              ? "bg-gray-900 text-white"
+                              : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                          } rounded-md px-3 py-2 text-sm font-medium`}
+                          onClick={() => dispatch(changeCurrent(index))}
+                          aria-current={item.current ? "page" : undefined}
+                        >
+                          {item.name}
+                        </a>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -142,7 +150,7 @@ export default function Navbar() {
                           {({ active }) => (
                             <a
                               href={item.href}
-                              className={`${active ? "bg-gray-100" : ""} block px-4 py-2 text-sm text-gray-700"`}
+                              className={`${active ? "bg-gray-100" : ""} block px-4 py-2 text-sm text-gray-700`}
                             >
                               {item.name}
                             </a>
@@ -155,23 +163,6 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-          {/* 모바일 용 세로 네비바 */}
-          <Disclosure.Panel className="sm:hidden">
-            <div className="space-y-1 px-2 pb-3 pt-2">
-              {navigation.map((item) => (
-                <Disclosure.Button
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  className={`${item.current ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white"}
-                    block rounded-md px-3 py-2 text-base font-medium`}
-                  aria-current={item.current ? "page" : undefined}
-                >
-                  {item.name}
-                </Disclosure.Button>
-              ))}
-            </div>
-          </Disclosure.Panel>
         </>
       )}
     </Disclosure>

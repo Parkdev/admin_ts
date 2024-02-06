@@ -1,104 +1,145 @@
-import { Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Disclosure } from "@headlessui/react";
 import {
   ChevronUpIcon,
   ChartBarIcon,
-  CalendarIcon,
-  BookmarkSlashIcon,
-  BriefcaseIcon,
-  BuildingLibraryIcon,
   MagnifyingGlassIcon,
   HomeIcon,
 } from "@heroicons/react/20/solid";
 
-// 네비 state
+// Redux state
 import { RootState } from "../store/navstate";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { changeCurrent } from "../store/navstate";
 
 export default function SideMenu() {
+  //Redux state
   const navigation = useSelector((state: RootState) => {
     return state.nav.navigation;
   });
+  const isHidden = useSelector((state: RootState) => {
+    return state.isHidden.state;
+  });
+
+  let dispatch = useDispatch();
+
+  //Dropdown Status 상태 관리
+  let [ddStatus, setDdStatus] = useState(false);
+  useEffect(() => {
+    setDdStatus(
+      navigation
+        .filter((item) => item.category === 1)
+        .some((item) => item.current)
+        ? true
+        : false,
+    );
+  }, [navigation]);
+
+  useEffect(() => {
+    console.log(ddStatus);
+  }, [ddStatus]);
+
+  //메뉴 검색
+  const [searchInput, setSearchInput] = useState("");
+  const searchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value.toLowerCase());
+    console.log(searchInput);
+  };
+
   return (
-    <div className="h-[calc(100vh-64px)] max-w-[20rem] shadow-xl shadow-blue-gray-900/5 bg-gray-800 hidden sm:block">
+    <div
+      className={`${
+        isHidden ? "hidden" : "hidden sm:block"
+      } h-[calc(100vh-64px)] w-full sm:max-w-[20rem] shadow-xl shadow-blue-gray-900/5 bg-gray-800`}
+    >
       <div className="text-gray-100 text-xl">
-        <div className="p-2.5 flex items-center">
-          <i className="p-2 rounded-md bg-purple-800">
+        <a href="/" className="p-2.5 flex items-center">
+          <i className="p-2">
             <HomeIcon className="h-5 w-5" />
           </i>
           <h1 className="font-bold text-gray-200 text-[15px] ml-3">Home</h1>
-        </div>
+        </a>
         <div className="mx-2 p-2.5 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-gray-700 text-white">
           <i className="text-sm">
             <MagnifyingGlassIcon className="h-5 w-5" />
           </i>
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Menu Search"
             className="text-[15px] ml-4 w-full bg-transparent focus:outline-none"
+            onChange={searchValue}
           />
         </div>
         <div className="my-2 bg-gray-600 h-[1px]"></div>
       </div>
-      <Disclosure>
+      <Disclosure defaultOpen={true}>
         {({ open }) => (
           <>
-            <Disclosure.Button className="flex w-full justify-between px-4 py-4 text-left text-sm font-medium text-gray-100 hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75">
+            <Disclosure.Button
+              onClick={() => setDdStatus(!ddStatus)}
+              className="flex w-full justify-between px-4 py-4 text-left text-sm font-medium text-gray-100 hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75"
+            >
               <div className="flex">
                 <ChartBarIcon className="h-5 w-5" />
                 <span className="ml-2">Dropdown Menu</span>
               </div>
               <ChevronUpIcon
                 className={`${
-                  open ? "rotate-180 transform" : ""
-                } h-5 w-5 text-purple-500`}
+                  ddStatus ? "rotate-180 transform" : ""
+                } h-5 w-5 text-gray-500`}
               />
             </Disclosure.Button>
-            <Disclosure.Panel className="px-4 pb-2 pt-4 text-sm text-gray-500 flex flex-col">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className={`${
-                    item.current
-                      ? "bg-gray-900 text-gray-100"
-                      : "text-gray-100 hover:bg-gray-700 hover:text-gray-100"
-                  } rounded-md px-3 py-2 text-sm font-medium`}
-                  aria-current={item.current ? "page" : undefined}
-                >
-                  {item.name}
-                </a>
-              ))}
-            </Disclosure.Panel>
+            {ddStatus && (
+              <div className="px-4 text-sm text-gray-500 flex flex-col">
+                {navigation
+                  .filter((item) => item.category === 1)
+                  .map((item, index) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className={`${
+                        item.current
+                          ? "bg-gray-900 text-gray-100"
+                          : "text-gray-100 hover:bg-gray-700 hover:text-gray-100"
+                      } px-3 py-2 text-sm font-medium`}
+                      onClick={() => dispatch(changeCurrent(index))}
+                      aria-current={item.current ? "page" : undefined}
+                    >
+                      {item.name}
+                    </a>
+                  ))}
+              </div>
+            )}
             {/* 일반 버튼 메뉴 */}
+            <div className="my-2 bg-gray-600 h-[1px]" />
+            {navigation
+              .filter((item) => item.category === 2)
+              .map((item, index) => {
+                return (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className={`${
+                      item.current
+                        ? "bg-gray-900 text-gray-100"
+                        : "text-gray-100 hover:bg-gray-700 hover:text-gray-100"
+                    } flex space-x-3 px-4 py-4 text-sm text-gray-100 hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75`}
+                    onClick={() => dispatch(changeCurrent(index + 4))}
+                    aria-current={item.current ? "page" : undefined}
+                  >
+                    <>
+                      {item.icon &&
+                        React.cloneElement(item.icon, {
+                          className: "h-5 w-5",
+                        })}
+                    </>
+                    <div>{item.name}</div>
+                  </a>
+                );
+              })}
           </>
         )}
       </Disclosure>
-      <div className="my-2 bg-gray-600 h-[1px]"></div>
-      <div className="flex w-full justify-between px-4 py-4 text-left text-sm font-medeum text-gray-100 hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75">
-        <div className="flex">
-          <CalendarIcon className="h-5 w-5" />
-          <span className="ml-2">Menu 1</span>
-        </div>
-      </div>
-      <div className="flex w-full justify-between px-4 py-4 text-left text-sm font-medeum text-gray-100 hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75">
-        <div className="flex">
-          <BookmarkSlashIcon className="h-5 w-5" />
-          <span className="ml-2">Menu 2</span>
-        </div>
-      </div>
-      <div className="flex w-full justify-between px-4 py-4 text-left text-sm font-medeum text-gray-100 hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75">
-        <div className="flex">
-          <BriefcaseIcon className="h-5 w-5" />
-          <span className="ml-2">Menu 3</span>
-        </div>
-      </div>
-      <div className="flex w-full justify-between px-4 py-4 text-left text-sm font-medeum text-gray-100 hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75">
-        <div className="flex">
-          <BuildingLibraryIcon className="h-5 w-5" />
-          <span className="ml-2">Menu 4</span>
-        </div>
-      </div>
     </div>
   );
 }
