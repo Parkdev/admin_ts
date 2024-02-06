@@ -74,7 +74,7 @@ export default function SideMenu() {
       } h-[calc(100vh-64px)] w-full sm:max-w-[20rem] shadow-xl shadow-blue-gray-900/5 bg-gray-800`}
     >
       <div className="text-gray-100 text-xl">
-        <a href="/" className="p-2.5 flex items-center">
+        <a href="#" className="p-2.5 flex items-center">
           <i className="p-2">
             <HomeIcon className="h-5 w-5" />
           </i>
@@ -110,7 +110,9 @@ export default function SideMenu() {
               >
                 <>
                   {item.icon ? (
-                    icons[item.icon]
+                    React.cloneElement(icons[item.icon], {
+                      className: "h-5 w-5",
+                    })
                   ) : (
                     <DocumentIcon className="h-5 w-5" />
                   )}

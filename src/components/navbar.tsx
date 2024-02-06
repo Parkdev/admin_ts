@@ -10,7 +10,6 @@ import {
 import { RootState } from "../store/navstate";
 import { useSelector, useDispatch } from "react-redux";
 import { changeCurrent, toggleHidden } from "../store/navstate";
-import SideMenu from "./sidemenu";
 
 // 프로필 옵션
 const profileOptions: Array<{ name: string; href: string }> = [
@@ -58,7 +57,7 @@ export default function Navbar() {
               {/* flex flex 110, sm일때 item을 늘려 수직으로 표현, sm일때 시작 정렬 */}
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 {/* 아이콘 - flex 아이템 축소 방지 */}
-                <a href="/" className="flex flex-shrink-0 items-center">
+                <a href="#" className="flex flex-shrink-0 items-center">
                   <img
                     className="m-2 h-6 w-auto text-white"
                     src="/img/Microsoft_logo.png"

@@ -63,7 +63,6 @@ const isHidden = createSlice({
   reducers: {
     toggleHidden: (state) => {
       state.state = !state.state;
-      console.log(state.state);
     },
   },
 });
