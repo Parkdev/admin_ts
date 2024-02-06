@@ -9,6 +9,7 @@ import {
   BookmarkSlashIcon,
   BriefcaseIcon,
   BuildingLibraryIcon,
+  DocumentIcon,
 } from "@heroicons/react/20/solid";
 
 // Redux state
@@ -69,7 +70,7 @@ export default function SideMenu() {
     );
     console.log(result);
     setSearched(result);
-  }, [searchValue]);
+  }, [searchValue, navigation]);
 
   return (
     <div
@@ -96,9 +97,36 @@ export default function SideMenu() {
           />
         </div>
       </div>
-      {false ? (
-        <></>
+      {/* 검색결과 */}
+      {searchValue ? (
+        <>
+          {searched.map((item, index) => {
+            return (
+              <a
+                key={item.name}
+                href={item.href}
+                className={`${
+                  item.current
+                    ? "bg-gray-900 text-gray-100"
+                    : "text-gray-100 hover:bg-gray-700 hover:text-gray-100"
+                } flex space-x-3 px-4 py-4 text-sm text-gray-100 hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75`}
+                onClick={() => dispatch(changeCurrent(index + 4))}
+                aria-current={item.current ? "page" : undefined}
+              >
+                <>
+                  {item.icon ? (
+                    icons[item.icon]
+                  ) : (
+                    <DocumentIcon className="h-5 w-5" />
+                  )}
+                </>
+                <div>{item.name}</div>
+              </a>
+            );
+          })}
+        </>
       ) : (
+        // 기존 메뉴
         <>
           <div className="my-2 bg-gray-600 h-[1px]"></div>
           <Disclosure defaultOpen={true}>
