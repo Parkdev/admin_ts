@@ -48,10 +48,6 @@ export default function SideMenu() {
     );
   }, [navigation]);
 
-  useEffect(() => {
-    console.log(ddStatus);
-  }, [ddStatus]);
-
   //메뉴 검색
   type NavigationItem = {
     category: number;
@@ -68,7 +64,6 @@ export default function SideMenu() {
     const result: NavigationItem[] = navigation.filter((item) =>
       item.name.toLowerCase().includes(searchValue.toLowerCase()),
     );
-    console.log(result);
     setSearched(result);
   }, [searchValue, navigation]);
 
@@ -103,7 +98,7 @@ export default function SideMenu() {
           {searched.map((item, index) => {
             return (
               <a
-                key={item.name}
+                key={"searched-" + item.name}
                 href={item.href}
                 className={`${
                   item.current
@@ -138,7 +133,7 @@ export default function SideMenu() {
                 >
                   <div className="flex">
                     <ChartBarIcon className="h-5 w-5" />
-                    <span className="ml-2">Dropdown Menu</span>
+                    <span className="ml-2">Related with Topbar Menu</span>
                   </div>
                   <ChevronUpIcon
                     className={`${
@@ -152,7 +147,7 @@ export default function SideMenu() {
                       .filter((item) => item.category === 1)
                       .map((item, index) => (
                         <a
-                          key={item.name}
+                          key={"mainnav-" + item.name}
                           href={item.href}
                           className={`${
                             item.current
@@ -174,7 +169,7 @@ export default function SideMenu() {
                   .map((item, index) => {
                     return (
                       <a
-                        key={item.name}
+                        key={"subnav-" + item.name}
                         href={item.href}
                         className={`${
                           item.current

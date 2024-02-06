@@ -74,7 +74,7 @@ export default function Navbar() {
                       .filter((item) => item.category === 1)
                       .map((item, index) => (
                         <a
-                          key={item.name}
+                          key={"topnav-" + item.name}
                           href={item.href}
                           className={`${
                             item.current
@@ -146,7 +146,7 @@ export default function Navbar() {
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       {profileOptions.map((item) => (
-                        <Menu.Item>
+                        <Menu.Item key={"profile-" + item.name}>
                           {({ active }) => (
                             <a
                               href={item.href}
