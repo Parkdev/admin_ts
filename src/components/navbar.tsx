@@ -1,16 +1,17 @@
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+import React, { Fragment } from "react";
+import { Disclosure, Menu, Transition, Popover } from "@headlessui/react";
 import logo from "../img/Microsoft_logo.png";
 import {
   Bars3Icon,
   BellIcon,
   XMarkIcon,
-  Cog6ToothIcon,
+  QuestionMarkCircleIcon,
+  ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
 // 상단 네비 state
 import { RootState } from "../store/navstate";
 import { useSelector, useDispatch } from "react-redux";
-import { changeCurrent, toggleHidden } from "../store/navstate";
+import { changeCurrent, toggleHidden, haveSeen } from "../store/navstate";
 
 // 프로필 옵션
 const profileOptions: Array<{ name: string; href: string }> = [
@@ -18,9 +19,20 @@ const profileOptions: Array<{ name: string; href: string }> = [
   { name: "Sign out", href: "#" },
 ];
 
+//아이콘 맵핑
+const icons: { [key: string]: React.ReactElement } = {
+  Bell: <BellIcon />,
+  Question: <QuestionMarkCircleIcon />,
+  Exclamation: <ExclamationCircleIcon />,
+};
+
 export default function Navbar() {
   const navigation = useSelector((state: RootState) => {
     return state.nav.navigation;
+  });
+
+  const notifications = useSelector((state: RootState) => {
+    return state.notifications.list;
   });
 
   let dispatch = useDispatch();
@@ -92,28 +104,64 @@ export default function Navbar() {
               </div>
               {/* Nav 우측 */}
               <div className="bg-gray-800 absolute inset-y-0 right-0 flex space-x-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                {/* 모서리 hover시 흰색 focus시 강조*/}
-                <button
-                  type="button"
-                  className="relative rounded-md bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  {/* 클릭 영역 확대용 span */}
-                  <span className="absolute -inset-1.5" />
-                  {/* 스크린 리더 */}
-                  <span className="sr-only ">View notifications</span>
-                  <BellIcon className="h-6 w-`6" aria-hidden="true" />
-                </button>
-
-                <button
-                  type="button"
-                  className="relative rounded-md bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  {/* 클릭 영역 확대용 span */}
-                  <span className="absolute -inset-1.5" />
-                  {/* 스크린 리더 */}
-                  <span className="sr-only ">View notifications</span>
-                  <Cog6ToothIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                {/* 알람 */}
+                <Popover className="relative">
+                  {({ open }) => (
+                    <>
+                      <Popover.Button
+                        className={`${open ? "text-white" : ""} relative rounded-md bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none`}
+                      >
+                        <div className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-red-600" />
+                        <BellIcon
+                          className="h-6 w- hidden sm:block"
+                          aria-hidden="true"
+                        />
+                      </Popover.Button>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-200"
+                        enterFrom="opacity-0 translate-y-1"
+                        enterTo="opacity-100 translate-y-0"
+                        leave="transition ease-in duration-150"
+                        leaveFrom="opacity-100 translate-y-0"
+                        leaveTo="opacity-0 translate-y-1"
+                      >
+                        <Popover.Panel className="absolute right-1 translate-x-1/2 z-10 mt-5 w-screen max-w-sm px-4 sm:px-0">
+                          <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
+                            <div className="relative bg-white">
+                              {notifications.map((item, index) => (
+                                <a
+                                  key={item.category}
+                                  href={item.href}
+                                  className={` ${item.seen ? "hover:bg-gray-200" : "bg-blue-100 hover:bg-blue-200"} flex items-center p-3 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50 transition duration-500 ease-in-out`}
+                                  onClick={() => dispatch(haveSeen(index))}
+                                >
+                                  <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12">
+                                    {item.icon ? (
+                                      React.cloneElement(icons[item.icon], {
+                                        className: "text-gray-500 h-6 w-6",
+                                      })
+                                    ) : (
+                                      <BellIcon className="h-6 w-6" />
+                                    )}
+                                  </div>
+                                  <div className="ml-4">
+                                    <p className="text-sm font-medium text-gray-900">
+                                      {item.category}
+                                    </p>
+                                    <p className="text-sm text-gray-500">
+                                      {item.message}
+                                    </p>
+                                  </div>
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        </Popover.Panel>
+                      </Transition>
+                    </>
+                  )}
+                </Popover>
 
                 {/* 프로필 */}
                 <Menu as="div" className="relative ml-3">
@@ -144,13 +192,13 @@ export default function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute right-0 z-10 mt-5 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       {profileOptions.map((item) => (
                         <Menu.Item key={"profile-" + item.name}>
                           {({ active }) => (
                             <a
                               href={item.href}
-                              className={`${active ? "bg-gray-100" : ""} block px-4 py-2 text-sm text-gray-700`}
+                              className={`${active ? "bg-gray-200" : ""} block px-4 py-2 text-sm text-gray-700`}
                             >
                               {item.name}
                             </a>

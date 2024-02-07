@@ -30,10 +30,10 @@ export default function SideMenu() {
 
   //아이콘 맵핑
   const icons: { [key: string]: React.ReactElement } = {
-    CalendarIcon: <CalendarIcon />,
-    BookmarkSlashIcon: <BookmarkSlashIcon />,
-    BriefcaseIcon: <BriefcaseIcon />,
-    BuildingLibraryIcon: <BuildingLibraryIcon />,
+    Calendar: <CalendarIcon />,
+    BookmarkSlash: <BookmarkSlashIcon />,
+    Briefcase: <BriefcaseIcon />,
+    BuildingLibrary: <BuildingLibraryIcon />,
   };
 
   //Dropdown Status 상태 관리

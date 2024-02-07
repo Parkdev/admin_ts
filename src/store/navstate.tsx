@@ -1,10 +1,4 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
-import {
-  CalendarIcon,
-  BookmarkSlashIcon,
-  BriefcaseIcon,
-  BuildingLibraryIcon,
-} from "@heroicons/react/20/solid";
 
 // category: 1 대분류 2 이외
 const nav = createSlice({
@@ -20,28 +14,28 @@ const nav = createSlice({
         name: "Menu5",
         href: "#",
         current: false,
-        icon: "CalendarIcon",
+        icon: "Calendar",
       },
       {
         category: 2,
         name: "Menu6",
         href: "#",
         current: false,
-        icon: "BookmarkSlashIcon",
+        icon: "BookmarkSlash",
       },
       {
         category: 2,
         name: "Menu7",
         href: "#",
         current: false,
-        icon: "BriefcaseIcon",
+        icon: "Briefcase",
       },
       {
         category: 2,
-        name: "Menu8",
+        name: "Menu8", // 알람 데이터
         href: "#",
         current: false,
-        icon: "BuildingLibraryIcon",
+        icon: "BuildingLibrary",
       },
     ],
   },
@@ -54,7 +48,7 @@ const nav = createSlice({
     },
   },
 });
-
+// sidebar 상태
 const isHidden = createSlice({
   name: "isHidden",
   initialState: {
@@ -67,14 +61,51 @@ const isHidden = createSlice({
   },
 });
 
+// notificationn
+const notifications = createSlice({
+  name: "notifications",
+  initialState: {
+    list: [
+      {
+        category: "알림 종류1",
+        message: "새로운 기능이 추가되었습니다.",
+        href: "##",
+        icon: "Bell",
+        seen: false,
+      },
+      {
+        category: "알림 종류2",
+        message: "메인 페이지가 생성되었습니다.",
+        href: "##",
+        icon: "Question",
+        seen: false,
+      },
+      {
+        category: "알림 종류3",
+        message: "새로운 메뉴가 추가되었습니다.",
+        href: "##",
+        icon: "Exclamation",
+        seen: false,
+      },
+    ],
+  },
+  reducers: {
+    haveSeen(state, action) {
+      state.list[action.payload].seen = true;
+    },
+  },
+});
+
 const store = configureStore({
   reducer: {
     nav: nav.reducer,
     isHidden: isHidden.reducer,
+    notifications: notifications.reducer,
   },
 });
 
 export let { changeCurrent } = nav.actions;
 export let { toggleHidden } = isHidden.actions;
+export let { haveSeen } = notifications.actions;
 export type RootState = ReturnType<typeof store.getState>;
 export default store;
