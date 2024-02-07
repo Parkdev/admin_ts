@@ -2,13 +2,15 @@ import React from "react";
 import "./App.css";
 import Navbar from "./components/navbar";
 import SideMenu from "./components/sidemenu";
+import DashBoard from "./pages/dashboard";
 
 function App() {
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar />
       <div className="flex">
-        <SideMenu></SideMenu>
+        <SideMenu />
+        <DashBoard />
       </div>
     </div>
   );
