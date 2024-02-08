@@ -52,8 +52,8 @@ export default function Navbar() {
           <div className="mx-auto px-2 sm:px-6 lg:px-8">
             {/* position 설정 flex 설정 hight 16단위 (64px) 중앙정렬 양쪽정렬 */}
             <div className="relative flex h-16 items-center justify-between">
-              {/* 절대위치, y축여백, 0, 왼쪽여백 0, flex 중앙정렬, sm: 640 이하 사이즈에서 숨김*/}
-              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+              {/* 절대위치, y축여백, 0, 왼쪽여백 0, flex 중앙정렬, sm: 640 이상 사이즈에서 숨김*/}
+              <div className="absolute inset-y-0 left-0 flex items-center lg:hidden">
                 {/* 모바일 전용 메뉴 버튼*/}
                 {/* position 설정, inline-flex(container의 흐름대로 쌓임), 모서리, padding, text색, hover시 bg색 text색변경, focus시 outline없앰,  */}
                 <Disclosure.Button
@@ -74,8 +74,8 @@ export default function Navbar() {
               </div>
 
               {/* Navbar 앞 */}
-              {/* flex flex 110, sm일때 item을 늘려 수직으로 표현, sm일때 시작 정렬 */}
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+              {/* flex flex 110, sm이상 item을 늘림 수직으로 표현, sm이상 시작 정렬 */}
+              <div className="flex flex-1 items-center justify-center lg:items-stretch lg:justify-start">
                 {/* 아이콘 - flex 아이템 축소 방지 */}
                 <a href="#" className="flex flex-shrink-0 items-center">
                   <img
@@ -85,8 +85,8 @@ export default function Navbar() {
                   />
                 </a>
 
-                {/* 기본적으로 숨기기, sm일때 노출*/}
-                <div className="hidden sm:ml-6 sm:block">
+                {/* 기본적으로 숨기기, sm이상 노출*/}
+                <div className="hidden lg:ml-6 lg:block">
                   {/* x축 간격 4 */}
                   <div className="flex space-x-4">
                     {navigation
@@ -110,7 +110,7 @@ export default function Navbar() {
                 </div>
               </div>
               {/* Nav 우측 */}
-              <div className="bg-gray-800 absolute inset-y-0 right-0 flex space-x-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div className="bg-gray-800 absolute inset-y-0 right-0 flex space-x-4 items-center pr-2 lg:static lg:inset-auto lg:ml-6 lg:pr-0">
                 {/* 알람 */}
                 <Popover className="relative">
                   {({ open }) => (
@@ -120,7 +120,7 @@ export default function Navbar() {
                       >
                         {/* 알람 개수 */}
                         {alerm > 0 && (
-                          <div className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-600 flex item-center justify-center text-sm text-white">
+                          <div className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-blue-600 flex item-center justify-center text-sm text-white hidden sm:block">
                             <p className="block">{alerm}</p>
                           </div>
                         )}

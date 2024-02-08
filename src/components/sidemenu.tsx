@@ -70,7 +70,7 @@ export default function SideMenu() {
   return (
     <div
       className={`${
-        isHidden ? "block" : "hidden sm:block"
+        isHidden ? "block" : "hidden lg:block"
       } h-[calc(100vh-64px)] w-full sm:max-w-[20rem] shadow-xl shadow-blue-gray-900/5 bg-gray-800`}
     >
       <div className="text-gray-100 text-xl">

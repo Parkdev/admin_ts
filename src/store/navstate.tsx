@@ -105,7 +105,7 @@ const notifications = createSlice({
   },
 });
 
-const store = configureStore({
+const navStore = configureStore({
   reducer: {
     nav: nav.reducer,
     isHidden: isHidden.reducer,
@@ -116,5 +116,5 @@ const store = configureStore({
 export let { changeCurrent } = nav.actions;
 export let { toggleHidden } = isHidden.actions;
 export let { haveSeen } = notifications.actions;
-export type RootState = ReturnType<typeof store.getState>;
-export default store;
+export type RootState = ReturnType<typeof navStore.getState>;
+export default navStore;
