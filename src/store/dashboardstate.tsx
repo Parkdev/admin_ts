@@ -17,50 +17,71 @@ const conditionList = createSlice({
 const tabList = createSlice({
   name: "tabList",
   initialState: {
-    Recent: [
+    최근: [
       {
         id: 1,
         title: "테스트 1",
-        date: "5시간 전",
+        date: "2024-02-08 16:00:00",
         commentCount: 5,
         shareCount: 2,
       },
       {
         id: 2,
         title: "테스트 2",
-        date: "2시간 전",
+        date: "2024-02-08 15:00:00",
+        commentCount: 3,
+        shareCount: 2,
+      },
+      {
+        id: 3,
+        title: "테스트 7",
+        date: "2024-02-08 14:00:00",
+        commentCount: 3,
+        shareCount: 2,
+      },
+      {
+        id: 4,
+        title: "테스트 8",
+        date: "2024-02-08 13:00:00",
+        commentCount: 3,
+        shareCount: 2,
+      },
+      {
+        id: 5,
+        title: "테스트 8",
+        date: "2024-02-08 13:00:00",
         commentCount: 3,
         shareCount: 2,
       },
     ],
-    Popular: [
+    몇일전: [
       {
         id: 1,
         title: "테스트 3",
-        date: "7일 전",
+        date: "2024-02-07 18:00:00",
         commentCount: 29,
         shareCount: 16,
       },
       {
         id: 2,
         title: "테스트 4",
-        date: "6일 전",
+        date: "2024-02-06 17:00:00",
         commentCount: 24,
         shareCount: 12,
       },
     ],
-    Trending: [
+    몇달전: [
       {
         id: 1,
         title: "테스트 5",
-        date: "2시간 전",
+        date: "2024-01-08 12:00:00",
         commentCount: 9,
         shareCount: 5,
       },
       {
         id: 2,
         title: "테스트 6",
-        date: "4시간 전",
+        date: "2023-12-08 12:00:00",
         commentCount: 1,
         shareCount: 2,
       },
@@ -85,11 +106,64 @@ const deviceList = createSlice({
   reducers: {},
 });
 
+const deviceDetail = createSlice({
+  name: "deviceDetail",
+  initialState: {
+    updateDate: "2021년 10월 10일",
+    devices: [
+      {
+        id: 1,
+        category: "Windows",
+        name: "Microsoft Surface Pro1",
+        date: "2024-02-09 12:00:00",
+        status: true,
+      },
+      {
+        id: 2,
+        category: "Linux",
+        name: "HP",
+        date: "2024-02-09 12:00:00",
+        status: true,
+      },
+      {
+        id: 3,
+        category: "Windows",
+        name: "Microsoft Surface Pro2",
+        date: "2024-02-09 12:00:00",
+        status: true,
+      },
+      {
+        id: 4,
+        category: "iOS/iPadOS",
+        name: "iPhone 14 X",
+        date: "2024-02-09 12:00:00",
+        status: true,
+      },
+      {
+        id: 5,
+        category: "macOS",
+        name: "Apple MacBook Pro 17",
+        date: "2024-02-09 12:00:00",
+        status: false,
+      },
+      {
+        id: 6,
+        category: "Windows Mobile",
+        name: "Windows Phone 7",
+        date: "2024-02-09 12:00:00",
+        status: false,
+      },
+    ],
+  },
+  reducers: {},
+});
+
 const dashBoardStore = configureStore({
   reducer: {
     conditionList: conditionList.reducer,
     tabList: tabList.reducer,
     deviceList: deviceList.reducer,
+    deviceDetail: deviceDetail.reducer,
   },
 });
 

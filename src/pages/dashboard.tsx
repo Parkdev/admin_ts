@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { DeviceTabletIcon } from "@heroicons/react/20/solid";
 import { Tab } from "@headlessui/react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/dashboardstate";
+import formatDate from "../functions/formatDate";
+import DeviceTable from "../components/devicepageTable";
 
 const Dashboard: React.FC = () => {
   const conditionInfo = useSelector(
@@ -10,17 +12,17 @@ const Dashboard: React.FC = () => {
   );
   const tabInfo = useSelector((state: RootState) => state.tabList);
   const deviceInfo = useSelector((state: RootState) => state.deviceList);
+  const deviceDetail = useSelector((state: RootState) => state.deviceDetail);
 
   return (
-    <div className="w-full p-10">
+    <div className="w-full p-10 flex flex-col">
+      {/* 제목 */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
         <p className="text-gray-700">Welcome to your dashboard</p>
       </div>
-      <div className="flex-col sm:flex-row">
-        <div></div>
-      </div>
-      <div className="mt-5 max-w-screen-2xl">
+      {/* 상태보기 */}
+      <div className="mt-5">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {conditionInfo.map((status) => {
             return (
@@ -46,61 +48,6 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
       <div className="mt-5 flex flex-col lg:flex-row space-y-10 lg:space-y-0 lg:space-x-10 items-center lg:items-start justify-content-center">
-        {/* tab영역 */}
-        <div className="w-full self-stretch">
-          <Tab.Group>
-            <Tab.List className="flex space-x-1 rounded-t-xl bg-gray-800 pt-1 px-1">
-              {Object.keys(tabInfo).map((tabInfo) => (
-                <Tab
-                  key={tabInfo}
-                  className={({ selected }) =>
-                    `${
-                      selected
-                        ? "bg-white text-gray-800"
-                        : "text-gray-300 hover:bg-white/[0.12] hover:text-white"
-                    } w-full rounded-t-xl h-9 text-sm font-medium focus:outline-none`
-                  }
-                >
-                  {tabInfo}
-                </Tab>
-              ))}
-            </Tab.List>
-            <Tab.Panels className="rounded-b-xl pb-1 px-1 bg-gray-800 h-[calc(100%-2.5rem)]">
-              {Object.values(tabInfo).map((posts, idx) => (
-                <Tab.Panel
-                  key={idx}
-                  className="rounded-b-xl bg-white p-3 ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
-                >
-                  <ul>
-                    {posts.map((post) => (
-                      <li
-                        key={post.id}
-                        className="relative rounded-md p-3 hover:bg-gray-100"
-                      >
-                        <h3 className="text-sm font-medium leading-5">
-                          {post.title}
-                        </h3>
-
-                        <ul className="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500">
-                          <li>{post.date}</li>
-                          <li>&middot;</li>
-                          <li>댓글 {post.commentCount}</li>
-                          <li>&middot;</li>
-                          <li>공유 {post.shareCount}</li>
-                        </ul>
-
-                        <a
-                          href="/"
-                          className="absolute inset-0 rounded-md ring-blue-400 focus:z-10 focus:outline-none focus:ring-2"
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                </Tab.Panel>
-              ))}
-            </Tab.Panels>
-          </Tab.Group>
-        </div>
         {/* 디바이스 목록 영역 */}
         <div className="w-full lg:max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
           <div className="flex items-center justify-between mb-4">
@@ -116,7 +63,7 @@ const Dashboard: React.FC = () => {
               href="/"
               className="text-sm font-medium text-blue-600 hover:underline"
             >
-              View all {">"}
+              자세히 보기 {">"}
             </a>
           </div>
 
@@ -147,6 +94,82 @@ const Dashboard: React.FC = () => {
             </ul>
           </div>
         </div>
+        <div className="w-full h-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h5 className="text-xl font-bold leading-none text-gray-900">
+                디바이스 상세
+              </h5>
+              <p className="mt-1 text-sm text-gray-500">
+                마지막 업데이트 날짜 : {deviceDetail.updateDate}
+              </p>
+            </div>
+            <a
+              href="/"
+              className="text-sm font-medium text-blue-600 hover:underline"
+            >
+              자세히 보기 {">"}
+            </a>
+          </div>
+          <div className="flow-root">
+            <DeviceTable></DeviceTable>
+          </div>
+        </div>
+      </div>
+      {/* tab영역 */}
+      <div className="mt-5">
+        <Tab.Group>
+          <Tab.List className="flex space-x-1 rounded-t-xl bg-gray-800 pt-1 px-1">
+            {Object.keys(tabInfo).map((tabInfo) => (
+              <Tab
+                key={tabInfo}
+                className={({ selected }) =>
+                  `${
+                    selected
+                      ? "bg-white text-gray-800"
+                      : "text-gray-300 hover:bg-white/[0.12] hover:text-white"
+                  } w-full rounded-t-xl h-9 text-sm font-medium focus:outline-none`
+                }
+              >
+                {tabInfo}
+              </Tab>
+            ))}
+          </Tab.List>
+          <Tab.Panels className="rounded-b-xl pb-1 px-1 bg-gray-800 h-[calc(100%-2.5rem)]">
+            {Object.values(tabInfo).map((posts, idx) => (
+              <Tab.Panel
+                key={idx}
+                className="rounded-b-xl bg-white p-3 ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+              >
+                <ul>
+                  {posts.map((post) => (
+                    <li
+                      key={post.id}
+                      className="relative rounded-md p-3 hover:bg-gray-100"
+                    >
+                      <h3 className="text-sm font-medium leading-5">
+                        {post.title}
+                      </h3>
+
+                      <ul className="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500">
+                        <li>{formatDate(post.date)}</li>
+                        <li>&middot;</li>
+                        <li>댓글 {post.commentCount}</li>
+                        <li>&middot;</li>
+                        <li>공유 {post.shareCount}</li>
+                      </ul>
+
+                      <a
+                        href="/"
+                        className="absolute inset-0 rounded-md ring-blue-400 focus:z-10 focus:outline-none focus:ring-2"
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </Tab.Panel>
+            ))}
+          </Tab.Panels>
+        </Tab.Group>
       </div>
     </div>
   );
