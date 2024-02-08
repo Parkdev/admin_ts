@@ -93,6 +93,15 @@ const notifications = createSlice({
     haveSeen(state, action) {
       state.list[action.payload].seen = true;
     },
+    checkSeen(state) {
+      state.list.forEach((noti) => {
+        if (noti.seen === true) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    },
   },
 });
 

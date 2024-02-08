@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Disclosure, Menu, Transition, Popover } from "@headlessui/react";
 import logo from "../img/Microsoft_logo.png";
 import {
@@ -34,6 +34,13 @@ export default function Navbar() {
   const notifications = useSelector((state: RootState) => {
     return state.notifications.list;
   });
+
+  //noficification 숫자
+  const [alerm, setAlerm] = useState(0);
+
+  useEffect(() => {
+    setAlerm(notifications.filter((item) => !item.seen).length);
+  }, [notifications]);
 
   let dispatch = useDispatch();
 
@@ -111,7 +118,13 @@ export default function Navbar() {
                       <Popover.Button
                         className={`${open ? "text-white" : ""} relative rounded-md bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none`}
                       >
-                        <div className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-red-600" />
+                        {/* 알람 개수 */}
+                        {alerm > 0 && (
+                          <div className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-600 flex item-center justify-center text-sm text-white">
+                            <p className="block">{alerm}</p>
+                          </div>
+                        )}
+
                         <BellIcon
                           className="h-6 w- hidden sm:block"
                           aria-hidden="true"
