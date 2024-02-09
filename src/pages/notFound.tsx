@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { ArrowLeftIcon } from "@heroicons/react/20/solid";
+import { Transition } from "@headlessui/react";
 
 const NotFound: React.FC = () => {
   const navigate = useNavigate();
+  let [isShowing, setIsShowing] = useState(false);
+
+  useEffect(() => {
+    setIsShowing(true);
+  }, []);
+
   return (
     <div className="flex items-center justify-center bg-blue-100 w-full h-screen overflow-hidden text-blue-500 font-roboto">
       <div className="p-10 flex flex-col">
@@ -27,6 +35,11 @@ const NotFound: React.FC = () => {
           <span className="block uppercase text-blue-300 tracking-wider text-center">
             Help me out
           </span>
+        </div>
+      </div>
+      <div>
+        <div className="p-9 border-l-4 border-blue-500 rounded-l-full overflow-hidden relative">
+          <ArrowLeftIcon className="absolute right-0 bottom-0 animate-slide" />
         </div>
       </div>
     </div>
