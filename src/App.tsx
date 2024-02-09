@@ -3,10 +3,12 @@ import "./App.css";
 import Navbar from "./components/topNavbar";
 import SideMenu from "./components/sidemenu";
 import DashBoard from "./pages/dashboard";
+import Minesweeper from "./pages/mine";
 import { Provider } from "react-redux";
 import navStore from "./store/navstate";
 import dashBoardStore from "./store/dashboardstate";
 import { Routes, Route, Navigate } from "react-router-dom";
+import NotFound from "./pages/notFound";
 
 function App() {
   useEffect(() => {
@@ -24,6 +26,7 @@ function App() {
         </Provider>
         <Routes>
           <Route path="/" element={<Navigate replace to="/dashboard" />} />
+
           <Route
             path="/dashboard"
             element={
@@ -32,6 +35,8 @@ function App() {
               </Provider>
             }
           />
+          <Route path="minesweeper" element={<Minesweeper />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </div>
