@@ -4,7 +4,7 @@ import { Tab } from "@headlessui/react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/dashboardstate";
 import formatDate from "../functions/formatDate";
-import DeviceTable from "../components/devicepageTable";
+import DeviceTable from "../components/deviceTable";
 
 const Dashboard: React.FC = () => {
   const conditionInfo = useSelector(
@@ -21,7 +21,7 @@ const Dashboard: React.FC = () => {
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
         <p className="text-gray-700">Welcome to your dashboard</p>
       </div>
-      {/* 상태보기 */}
+      {/* 상단>Status */}
       <div className="mt-5">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {conditionInfo.map((status) => {
@@ -47,9 +47,10 @@ const Dashboard: React.FC = () => {
           })}
         </div>
       </div>
-      <div className="mt-5 flex flex-col lg:flex-row space-y-10 lg:space-y-0 lg:space-x-10 items-center lg:items-start justify-content-center">
-        {/* 디바이스 목록 영역 */}
-        <div className="w-full lg:max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
+      <div className="mt-5 grid grid-cols-1 lg:grid-cols-4 gap-3">
+        {/* 중단>디바이스 영역 */}
+        <div className="col-span-1 w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
+          {/* 디바이스 영역> 활성화 디바이스 */}
           <div className="flex items-center justify-between mb-4">
             <div>
               <h5 className="text-xl font-bold leading-none text-gray-900">
@@ -94,7 +95,9 @@ const Dashboard: React.FC = () => {
             </ul>
           </div>
         </div>
-        <div className="w-full h-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
+
+        {/* 디바이스 영역> 디바이스 상세 */}
+        <div className="col-span-1 lg:col-span-3 w-full h-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h5 className="text-xl font-bold leading-none text-gray-900">
@@ -116,7 +119,8 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* tab영역 */}
+
+      {/* 하단>tab영역 */}
       <div className="mt-5">
         <Tab.Group>
           <Tab.List className="flex space-x-1 rounded-t-xl bg-gray-800 pt-1 px-1">
@@ -160,7 +164,7 @@ const Dashboard: React.FC = () => {
                       </ul>
 
                       <a
-                        href="/"
+                        href="#"
                         className="absolute inset-0 rounded-md ring-blue-400 focus:z-10 focus:outline-none focus:ring-2"
                       />
                     </li>

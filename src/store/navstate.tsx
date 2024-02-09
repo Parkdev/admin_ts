@@ -5,7 +5,13 @@ const nav = createSlice({
   name: "nav",
   initialState: {
     navigation: [
-      { category: 1, name: "Menu1", href: "#", current: true, icon: null },
+      {
+        category: 1,
+        name: "대시보드",
+        href: "/dashboard",
+        current: true,
+        icon: null,
+      },
       { category: 1, name: "Menu2", href: "#", current: false, icon: null },
       { category: 1, name: "Menu3", href: "#", current: false, icon: null },
       { category: 1, name: "Menu4", href: "#", current: false, icon: null },

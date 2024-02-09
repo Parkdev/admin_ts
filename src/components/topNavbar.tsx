@@ -77,7 +77,7 @@ export default function Navbar() {
               {/* flex flex 110, sm이상 item을 늘림 수직으로 표현, sm이상 시작 정렬 */}
               <div className="flex flex-1 items-center justify-center lg:items-stretch lg:justify-start">
                 {/* 아이콘 - flex 아이템 축소 방지 */}
-                <a href="#" className="flex flex-shrink-0 items-center">
+                <a href="/" className="flex flex-shrink-0 items-center">
                   <img
                     className="m-2 h-6 w-auto text-white"
                     src={logo}

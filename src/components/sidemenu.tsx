@@ -71,7 +71,7 @@ export default function SideMenu() {
     <div
       className={`${
         isHidden ? "block" : "hidden lg:block"
-      } h-[calc(100vh-64px)] w-full sm:max-w-[20rem] shadow-xl shadow-blue-gray-900/5 bg-gray-800`}
+      } w-full sm:max-w-[20rem] shadow-xl shadow-blue-gray-900/5 bg-gray-800`}
     >
       <div className="text-gray-100 text-xl">
         <a href="#" className="p-2.5 flex items-center">

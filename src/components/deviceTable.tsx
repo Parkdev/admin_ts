@@ -17,19 +17,19 @@ export default function DeviceTable() {
     <div className="flex flex-col items-stretch">
       {/* 테이블 */}
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 text-center">
+        <table className="w-full text-sm text-center text-gray-500 truncate">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
-              <th scope="col" className="px-3 py-3">
+              <th scope="col" className="px-3">
                 분류
               </th>
-              <th scope="col" className="px-3 py-3">
+              <th scope="col" className="px-3">
                 등록명
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6">
                 등록일자
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6">
                 상태
               </th>
             </tr>
