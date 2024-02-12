@@ -36,13 +36,14 @@ const Minesweeper: React.FC = () => {
   });
   return (
     <div className="w-full p-10 flex flex-col items-center justfy-content-center">
-      <div className="p-5">
+      <h1>Mine Sweeper</h1>
+      <div className="p-5 rounded-md border border-gray-500">
         {board.map((row, rowIndex) => (
-          <div key={rowIndex} id="row" className="flex h-5">
+          <div key={rowIndex} id="row" className="flex">
             {row.map((col, colIndex) => (
-              <div
+              <button
                 key={colIndex}
-                className="w-5 h-5 border border-gray-300"
+                className="w-10 h-10 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br ` focus:outline-none shadow-lg shadow-blue-500/50 font-medium rounded-lg text-sm text-center me-2 mb-2"
                 // className={`minesweeper-cell ${cell.isRevealed ? "revealed" : ""} ${cell.isFlagged ? "flagged" : ""}`}
                 //   onClick={() => handleCellClick(cell.row, cell.col)}
                 //   onContextMenu={(event) =>
@@ -65,7 +66,7 @@ const Minesweeper: React.FC = () => {
               {cell.isFlagged && !cell.isRevealed && (
                 <span className="minesweeper-flag">🚩</span>
               )} */}
-              </div>
+              </button>
             ))}
           </div>
         ))}
@@ -76,7 +77,7 @@ const Minesweeper: React.FC = () => {
 
 export default Minesweeper;
 
-//     const handleCellClick = (row: number, col: number) => {
+// const handleCellClick = (row: number, col: number) => {
 //         if (gameOver) return;
 
 //         const clickedCell = board[row][col];
